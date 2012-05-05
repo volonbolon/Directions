@@ -13,7 +13,6 @@
 		79789FE7155566F600E53489 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 79789FE5155566F600E53489 /* InfoPlist.strings */; };
 		79789FE9155566F600E53489 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 79789FE8155566F600E53489 /* main.m */; };
 		79789FED155566F600E53489 /* VBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 79789FEC155566F600E53489 /* VBAppDelegate.m */; };
-		79789FF0155566F600E53489 /* VBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79789FEF155566F600E53489 /* VBViewController.m */; };
 		79789FF3155566F600E53489 /* VBViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79789FF1155566F600E53489 /* VBViewController.xib */; };
 		79789FFB155566F600E53489 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FFA155566F600E53489 /* SenTestingKit.framework */; };
 		79789FFC155566F600E53489 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FDC155566F600E53489 /* UIKit.framework */; };
@@ -32,6 +31,7 @@
 		7978A02315556B2500E53489 /* VBMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A01F15556B2500E53489 /* VBMapViewController.xib */; };
 		7978A02715556B3F00E53489 /* VBListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A02515556B3F00E53489 /* VBListViewController.m */; };
 		7978A02815556B3F00E53489 /* VBListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A02615556B3F00E53489 /* VBListViewController.xib */; };
+		7978A02B15556D0100E53489 /* VBSegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A02A15556D0100E53489 /* VBSegmentsController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,8 +55,6 @@
 		79789FEA155566F600E53489 /* Directions-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Directions-Prefix.pch"; sourceTree = "<group>"; };
 		79789FEB155566F600E53489 /* VBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VBAppDelegate.h; sourceTree = "<group>"; };
 		79789FEC155566F600E53489 /* VBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VBAppDelegate.m; sourceTree = "<group>"; };
-		79789FEE155566F600E53489 /* VBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VBViewController.h; sourceTree = "<group>"; };
-		79789FEF155566F600E53489 /* VBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VBViewController.m; sourceTree = "<group>"; };
 		79789FF2155566F600E53489 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/VBViewController.xib; sourceTree = "<group>"; };
 		79789FF9155566F600E53489 /* DirectionsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DirectionsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		79789FFA155566F600E53489 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -74,6 +72,8 @@
 		7978A02415556B3F00E53489 /* VBListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBListViewController.h; sourceTree = "<group>"; };
 		7978A02515556B3F00E53489 /* VBListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBListViewController.m; sourceTree = "<group>"; };
 		7978A02615556B3F00E53489 /* VBListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VBListViewController.xib; sourceTree = "<group>"; };
+		7978A02915556D0100E53489 /* VBSegmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBSegmentsController.h; sourceTree = "<group>"; };
+		7978A02A15556D0100E53489 /* VBSegmentsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBSegmentsController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,8 +143,6 @@
 				7978A011155567FB00E53489 /* Support */,
 				79789FEB155566F600E53489 /* VBAppDelegate.h */,
 				79789FEC155566F600E53489 /* VBAppDelegate.m */,
-				79789FEE155566F600E53489 /* VBViewController.h */,
-				79789FEF155566F600E53489 /* VBViewController.m */,
 				79789FF1155566F600E53489 /* VBViewController.xib */,
 				79789FE3155566F600E53489 /* Supporting Files */,
 			);
@@ -186,6 +184,8 @@
 			children = (
 				7978A0121555682400E53489 /* MKPolyline+GoogleAPIEncodedString.h */,
 				7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */,
+				7978A02915556D0100E53489 /* VBSegmentsController.h */,
+				7978A02A15556D0100E53489 /* VBSegmentsController.m */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -315,10 +315,10 @@
 			files = (
 				79789FE9155566F600E53489 /* main.m in Sources */,
 				79789FED155566F600E53489 /* VBAppDelegate.m in Sources */,
-				79789FF0155566F600E53489 /* VBViewController.m in Sources */,
 				7978A0141555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */,
 				7978A02015556B2500E53489 /* VBMapViewController.m in Sources */,
 				7978A02715556B3F00E53489 /* VBListViewController.m in Sources */,
+				7978A02B15556D0100E53489 /* VBSegmentsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
