@@ -7,6 +7,7 @@
 //
 
 #import "VBSegmentsController.h"
+#import "VBAPIClient.h"
 
 @interface VBSegmentsController ()
 @property (strong, nonatomic, readwrite) NSArray *viewControllers; 
@@ -32,5 +33,7 @@
     UIViewController *incomingViewController = [[self viewControllers] objectAtIndex:index]; 
     [[self navigationController] setViewControllers:[NSArray arrayWithObject:incomingViewController] animated:NO];
     [[incomingViewController navigationItem] setTitleView:segmentedControl]; 
+    UIBarButtonItem *
+    [[incomingViewController navigationItem] setRightBarButtonItem:<#(UIBarButtonItem *)#>]; 
 }
 @end
