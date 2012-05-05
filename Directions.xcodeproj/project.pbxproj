@@ -26,6 +26,12 @@
 		7978A0191555684100E53489 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7978A0181555684100E53489 /* MapKit.framework */; };
 		7978A01A1555689E00E53489 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7978A0161555683C00E53489 /* CoreLocation.framework */; };
 		7978A01B155568A300E53489 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7978A0181555684100E53489 /* MapKit.framework */; };
+		7978A02015556B2500E53489 /* VBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A01E15556B2500E53489 /* VBMapViewController.m */; };
+		7978A02115556B2500E53489 /* VBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A01E15556B2500E53489 /* VBMapViewController.m */; };
+		7978A02215556B2500E53489 /* VBMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A01F15556B2500E53489 /* VBMapViewController.xib */; };
+		7978A02315556B2500E53489 /* VBMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A01F15556B2500E53489 /* VBMapViewController.xib */; };
+		7978A02715556B3F00E53489 /* VBListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A02515556B3F00E53489 /* VBListViewController.m */; };
+		7978A02815556B3F00E53489 /* VBListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A02615556B3F00E53489 /* VBListViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +68,12 @@
 		7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+GoogleAPIEncodedString.m"; sourceTree = "<group>"; };
 		7978A0161555683C00E53489 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7978A0181555684100E53489 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		7978A01D15556B2500E53489 /* VBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBMapViewController.h; sourceTree = "<group>"; };
+		7978A01E15556B2500E53489 /* VBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBMapViewController.m; sourceTree = "<group>"; };
+		7978A01F15556B2500E53489 /* VBMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VBMapViewController.xib; sourceTree = "<group>"; };
+		7978A02415556B3F00E53489 /* VBListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBListViewController.h; sourceTree = "<group>"; };
+		7978A02515556B3F00E53489 /* VBListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBListViewController.m; sourceTree = "<group>"; };
+		7978A02615556B3F00E53489 /* VBListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VBListViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +139,7 @@
 		79789FE2155566F600E53489 /* Directions */ = {
 			isa = PBXGroup;
 			children = (
+				7978A01C15556AF400E53489 /* Views */,
 				7978A011155567FB00E53489 /* Support */,
 				79789FEB155566F600E53489 /* VBAppDelegate.h */,
 				79789FEC155566F600E53489 /* VBAppDelegate.m */,
@@ -175,6 +188,19 @@
 				7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */,
 			);
 			name = Support;
+			sourceTree = "<group>";
+		};
+		7978A01C15556AF400E53489 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7978A01D15556B2500E53489 /* VBMapViewController.h */,
+				7978A01E15556B2500E53489 /* VBMapViewController.m */,
+				7978A01F15556B2500E53489 /* VBMapViewController.xib */,
+				7978A02415556B3F00E53489 /* VBListViewController.h */,
+				7978A02515556B3F00E53489 /* VBListViewController.m */,
+				7978A02615556B3F00E53489 /* VBListViewController.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +276,8 @@
 			files = (
 				79789FE7155566F600E53489 /* InfoPlist.strings in Resources */,
 				79789FF3155566F600E53489 /* VBViewController.xib in Resources */,
+				7978A02215556B2500E53489 /* VBMapViewController.xib in Resources */,
+				7978A02815556B3F00E53489 /* VBListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7978A005155566F600E53489 /* InfoPlist.strings in Resources */,
+				7978A02315556B2500E53489 /* VBMapViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +317,8 @@
 				79789FED155566F600E53489 /* VBAppDelegate.m in Sources */,
 				79789FF0155566F600E53489 /* VBViewController.m in Sources */,
 				7978A0141555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */,
+				7978A02015556B2500E53489 /* VBMapViewController.m in Sources */,
+				7978A02715556B3F00E53489 /* VBListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +328,7 @@
 			files = (
 				7978A008155566F600E53489 /* DirectionsTests.m in Sources */,
 				7978A0151555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */,
+				7978A02115556B2500E53489 /* VBMapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
