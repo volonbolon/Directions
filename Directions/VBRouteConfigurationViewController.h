@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VBRouteConfigurationViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface VBRouteConfigurationViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UIScrollViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *originStreetTextField;
 @property (weak, nonatomic) IBOutlet UITextField *originCityTextField;

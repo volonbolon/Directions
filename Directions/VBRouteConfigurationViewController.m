@@ -47,8 +47,7 @@
     [[self scrollView] setDelaysContentTouches:NO]; 
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [self setScrollView:nil];
     [self setOriginStreetTextField:nil];
     [self setOriginCityTextField:nil];
@@ -59,6 +58,7 @@
     [self setAvoidTollsSwitch:nil];
     [self setAvoidHighwaysSwitch:nil];
     [self setModePickerView:nil];
+    
     [super viewDidUnload];
 }
 
@@ -67,14 +67,17 @@
 }
 
 - (IBAction)cancelButtonTapped {
-    
+    [[self parentViewController] dismissViewControllerAnimated:YES
+                                                    completion:^{
+                                                        
+                                                    }]; 
 }
 
 - (IBAction)doneButtonTapped {
     
 }
 
-#pragma mark - UIPickerViewDataSource<NSObject>
+#pragma mark - UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
@@ -83,10 +86,52 @@
     return [[self routeModes] count]; 
 }
 
+#pragma mark - UIPickerViewDelegate
 - (NSString *)pickerView:(UIPickerView *)pickerView 
              titleForRow:(NSInteger)row 
             forComponent:(NSInteger)component {
     return [[self routeModes] objectAtIndex:row]; 
+}
+
+#pragma mark - UITextFieldDelegate 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if ( [textField isEqual:[self originStreetTextField]] ) {
+        [[self scrollView] setContentOffset:CGPointMake(0, 0)
+                                   animated:YES]; 
+    }
+    
+    if ( [textField isEqual:[self originCityTextField]] || [textField isEqual:[self originStateTextField]] ) {
+        [[self scrollView] setContentOffset:CGPointMake(0, 40) 
+                                   animated:YES]; 
+    }
+    
+    if ( [textField isEqual:[self destinationStreetTextField]] ) {
+        [[self scrollView] setContentOffset:CGPointMake(0, 80)
+                                   animated:YES]; 
+    }
+    
+    if ( [textField isEqual:[self destinationCityTextField]] || [textField isEqual:[self destinationStateTextField]] ) {
+        [[self scrollView] setContentOffset:CGPointMake(0, 120) animated:YES]; 
+    }
+} 
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ( [textField isEqual:[self originStreetTextField]] ) {
+        [[self originCityTextField] becomeFirstResponder];
+    } else if ( [textField isEqual:[self originCityTextField]] ) {
+        [[self originStateTextField] becomeFirstResponder];
+    } else if ( [textField isEqual:[self originStateTextField]] ) {
+        [[self destinationStreetTextField] becomeFirstResponder];
+    } else if ( [textField isEqual:[self destinationStreetTextField]] ) {
+        [[self destinationCityTextField] becomeFirstResponder];
+    } else if ( [textField isEqual:[self destinationCityTextField]] ) {
+        [[self destinationStateTextField] becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder]; 
+    }
+    
+    
+    return YES; 
 }
 
 @end
