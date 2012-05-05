@@ -8,6 +8,7 @@
 
 #import "VBSegmentsController.h"
 #import "VBAPIClient.h"
+#import "VBRouteConfigurationViewController.h"
 
 @interface VBSegmentsController ()
 @property (strong, nonatomic, readwrite) NSArray *viewControllers; 
@@ -33,7 +34,18 @@
     UIViewController *incomingViewController = [[self viewControllers] objectAtIndex:index]; 
     [[self navigationController] setViewControllers:[NSArray arrayWithObject:incomingViewController] animated:NO];
     [[incomingViewController navigationItem] setTitleView:segmentedControl]; 
-    UIBarButtonItem *
-    [[incomingViewController navigationItem] setRightBarButtonItem:<#(UIBarButtonItem *)#>]; 
+    [[incomingViewController navigationItem] setRightBarButtonItem:BARBUTTON(@"New Route", @selector(presentNewRouteConfiguration))]; 
 }
+
+- (IBAction)presentNewRouteConfiguration {
+    VBRouteConfigurationViewController *rcvc = [[VBRouteConfigurationViewController alloc] initWithNibName:@"VBRouteConfigurationViewController"
+                                                                                                    bundle:nil];
+    UINavigationController *rootController = [[UINavigationController alloc] initWithRootViewController:rcvc]; 
+     
+    [rootController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal]; 
+    [[self navigationController] presentViewController:rootController
+                                              animated:YES 
+                                            completion:^{}]; 
+}
+
 @end

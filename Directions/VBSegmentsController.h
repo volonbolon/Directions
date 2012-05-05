@@ -16,4 +16,5 @@
 - (id)initWithNavigationController:(UINavigationController *)theNavigationController
                    viewControllers:(NSArray *)viewControllers;
 - (IBAction)indexDidChangeForSegmentedControl:(UISegmentedControl *)segmentedControl;
+- (IBAction)presentNewRouteConfiguration; 
 @end

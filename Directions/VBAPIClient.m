@@ -34,7 +34,8 @@
         [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         
         // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-        [self setDefaultHeader:@"Accept" value:@"application/json"];
+        [self setDefaultHeader:@"Accept" 
+                         value:@"application/json"];
     }
     
     return self;
@@ -42,7 +43,8 @@
 
 - (void)produceRouteWithUserInformation:(NSDictionary *)userInfo {
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"-34.630672,-58.434915", @"origin", 
-                            @"-34.777428,-58.463057", @"destination", @"false", @"sensor", nil]; 
+                            @"-34.777428,-58.463057", @"destination", 
+                            @"false", @"sensor", nil]; 
     NSURLRequest *request = [self requestWithMethod:@"GET"
                                                path:@"maps/api/directions/json" 
                                          parameters:params]; 
@@ -54,6 +56,10 @@
                                                                                             NSLog(@"%@", error);
                                                                                         }]; 
     [operation start]; 
+}
+
+- (BOOL)shouldAskForNewParams {
+    return YES; 
 }
 
 @end

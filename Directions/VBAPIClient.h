@@ -12,4 +12,5 @@
 @property (strong, readonly) NSArray *routePoints; 
 + (VBAPIClient *)sharedClient;
 - (void)produceRouteWithUserInformation:(NSDictionary *)userInfo; 
+- (BOOL)shouldAskForNewParams;
 @end
