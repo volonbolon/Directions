@@ -37,20 +37,20 @@
 		79789FDC155566F600E53489 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		79789FDE155566F600E53489 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		79789FE0155566F600E53489 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		79789FE4155566F600E53489 /* Directions-Info.plist */ = {isa = PBXFileReference; path = "Directions-Info.plist"; sourceTree = "<group>"; };
+		79789FE4155566F600E53489 /* Directions-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Directions-Info.plist"; sourceTree = "<group>"; };
 		79789FE6155566F600E53489 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		79789FE8155566F600E53489 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		79789FEA155566F600E53489 /* Directions-Prefix.pch */ = {isa = PBXFileReference; path = "Directions-Prefix.pch"; sourceTree = "<group>"; };
-		79789FEB155566F600E53489 /* VBAppDelegate.h */ = {isa = PBXFileReference; path = VBAppDelegate.h; sourceTree = "<group>"; };
+		79789FEA155566F600E53489 /* Directions-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Directions-Prefix.pch"; sourceTree = "<group>"; };
+		79789FEB155566F600E53489 /* VBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VBAppDelegate.h; sourceTree = "<group>"; };
 		79789FEC155566F600E53489 /* VBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VBAppDelegate.m; sourceTree = "<group>"; };
-		79789FEE155566F600E53489 /* VBViewController.h */ = {isa = PBXFileReference; path = VBViewController.h; sourceTree = "<group>"; };
+		79789FEE155566F600E53489 /* VBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VBViewController.h; sourceTree = "<group>"; };
 		79789FEF155566F600E53489 /* VBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VBViewController.m; sourceTree = "<group>"; };
 		79789FF2155566F600E53489 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/VBViewController.xib; sourceTree = "<group>"; };
 		79789FF9155566F600E53489 /* DirectionsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DirectionsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		79789FFA155566F600E53489 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		7978A002155566F600E53489 /* DirectionsTests-Info.plist */ = {isa = PBXFileReference; path = "DirectionsTests-Info.plist"; sourceTree = "<group>"; };
+		7978A002155566F600E53489 /* DirectionsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DirectionsTests-Info.plist"; sourceTree = "<group>"; };
 		7978A004155566F600E53489 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7978A006155566F600E53489 /* DirectionsTests.h */ = {isa = PBXFileReference; path = DirectionsTests.h; sourceTree = "<group>"; };
+		7978A006155566F600E53489 /* DirectionsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionsTests.h; sourceTree = "<group>"; };
 		7978A007155566F600E53489 /* DirectionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectionsTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
