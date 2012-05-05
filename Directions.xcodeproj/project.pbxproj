@@ -20,6 +20,12 @@
 		79789FFD155566F600E53489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FDE155566F600E53489 /* Foundation.framework */; };
 		7978A005155566F600E53489 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7978A003155566F600E53489 /* InfoPlist.strings */; };
 		7978A008155566F600E53489 /* DirectionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A007155566F600E53489 /* DirectionsTests.m */; };
+		7978A0141555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */; };
+		7978A0151555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */; };
+		7978A0171555683C00E53489 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7978A0161555683C00E53489 /* CoreLocation.framework */; };
+		7978A0191555684100E53489 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7978A0181555684100E53489 /* MapKit.framework */; };
+		7978A01A1555689E00E53489 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7978A0161555683C00E53489 /* CoreLocation.framework */; };
+		7978A01B155568A300E53489 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7978A0181555684100E53489 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +58,10 @@
 		7978A004155566F600E53489 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7978A006155566F600E53489 /* DirectionsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionsTests.h; sourceTree = "<group>"; };
 		7978A007155566F600E53489 /* DirectionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectionsTests.m; sourceTree = "<group>"; };
+		7978A0121555682400E53489 /* MKPolyline+GoogleAPIEncodedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPolyline+GoogleAPIEncodedString.h"; sourceTree = "<group>"; };
+		7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPolyline+GoogleAPIEncodedString.m"; sourceTree = "<group>"; };
+		7978A0161555683C00E53489 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7978A0181555684100E53489 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7978A0191555684100E53489 /* MapKit.framework in Frameworks */,
+				7978A0171555683C00E53489 /* CoreLocation.framework in Frameworks */,
 				79789FDD155566F600E53489 /* UIKit.framework in Frameworks */,
 				79789FDF155566F600E53489 /* Foundation.framework in Frameworks */,
 				79789FE1155566F600E53489 /* CoreGraphics.framework in Frameworks */,
@@ -69,6 +81,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7978A01B155568A300E53489 /* MapKit.framework in Frameworks */,
+				7978A01A1555689E00E53489 /* CoreLocation.framework in Frameworks */,
 				79789FFB155566F600E53489 /* SenTestingKit.framework in Frameworks */,
 				79789FFC155566F600E53489 /* UIKit.framework in Frameworks */,
 				79789FFD155566F600E53489 /* Foundation.framework in Frameworks */,
@@ -100,6 +114,8 @@
 		79789FDB155566F600E53489 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7978A0181555684100E53489 /* MapKit.framework */,
+				7978A0161555683C00E53489 /* CoreLocation.framework */,
 				79789FDC155566F600E53489 /* UIKit.framework */,
 				79789FDE155566F600E53489 /* Foundation.framework */,
 				79789FE0155566F600E53489 /* CoreGraphics.framework */,
@@ -111,6 +127,7 @@
 		79789FE2155566F600E53489 /* Directions */ = {
 			isa = PBXGroup;
 			children = (
+				7978A011155567FB00E53489 /* Support */,
 				79789FEB155566F600E53489 /* VBAppDelegate.h */,
 				79789FEC155566F600E53489 /* VBAppDelegate.m */,
 				79789FEE155566F600E53489 /* VBViewController.h */,
@@ -149,6 +166,15 @@
 				7978A003155566F600E53489 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7978A011155567FB00E53489 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				7978A0121555682400E53489 /* MKPolyline+GoogleAPIEncodedString.h */,
+				7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */,
+			);
+			name = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +287,7 @@
 				79789FE9155566F600E53489 /* main.m in Sources */,
 				79789FED155566F600E53489 /* VBAppDelegate.m in Sources */,
 				79789FF0155566F600E53489 /* VBViewController.m in Sources */,
+				7978A0141555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7978A008155566F600E53489 /* DirectionsTests.m in Sources */,
+				7978A0151555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
