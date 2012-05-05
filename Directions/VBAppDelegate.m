@@ -10,9 +10,11 @@
 #import "VBMapViewController.h"
 #import "VBListViewController.h"
 #import "VBSegmentsController.h"
+#import "VBReachability.h"
 
 @interface VBAppDelegate ()
 - (NSArray *)segmentsViewControllers; 
+- (void)checkReachability; 
 @end
 
 @implementation VBAppDelegate
@@ -42,6 +44,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[self window] addSubview:[navigationController view]]; 
     [[self window] makeKeyAndVisible];
     
+    [self checkReachability]; 
+    
     return YES;
 }
 
@@ -57,13 +61,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [self checkReachability]; 
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
+- (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
@@ -78,6 +80,26 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     VBListViewController *listViewController = [[VBListViewController alloc] initWithNibName:@"VBListViewController"
                                                                                       bundle:nil]; 
     return [NSArray arrayWithObjects:mapViewController, listViewController,nil]; 
+}
+
+- (void)checkReachability {
+    VBReachability *reach = [VBReachability reachabilityWithHostname:@"www.google.com"];
+    reach.reachableBlock = ^(VBReachability *reachability) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"Reachable"); 
+        });
+    }; 
+    reach.unreachableBlock = ^(VBReachability *reachability) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *unreachableAlertView = [[UIAlertView alloc] initWithTitle:@"Unreachable Network"
+                                                                           message:@"You have to had a live data connection to use this app" 
+                                                                          delegate:nil
+                                                                 cancelButtonTitle:@"OK" 
+                                                                 otherButtonTitles:nil]; 
+            [unreachableAlertView show]; 
+        }); 
+    };
+    [reach startNotifier];
 }
 
 @end
