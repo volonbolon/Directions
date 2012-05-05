@@ -17,6 +17,7 @@
 		791F884915558F87005B3393 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F883D15558F87005B3393 /* AFURLConnectionOperation.m */; };
 		791F884A15558F87005B3393 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F883F15558F87005B3393 /* AFXMLRequestOperation.m */; };
 		791F884B15558F87005B3393 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F884115558F87005B3393 /* UIImageView+AFNetworking.m */; };
+		791F884F15558FD7005B3393 /* VBReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F884E15558FD7005B3393 /* VBReachability.m */; };
 		79789FDD155566F600E53489 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FDC155566F600E53489 /* UIKit.framework */; };
 		79789FDF155566F600E53489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FDE155566F600E53489 /* Foundation.framework */; };
 		79789FE1155566F600E53489 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FE0155566F600E53489 /* CoreGraphics.framework */; };
@@ -76,6 +77,8 @@
 		791F883F15558F87005B3393 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		791F884015558F87005B3393 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		791F884115558F87005B3393 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		791F884D15558FD7005B3393 /* VBReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBReachability.h; sourceTree = "<group>"; };
+		791F884E15558FD7005B3393 /* VBReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBReachability.m; sourceTree = "<group>"; };
 		79789FD8155566F600E53489 /* Directions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Directions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79789FDC155566F600E53489 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		79789FDE155566F600E53489 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -181,6 +184,15 @@
 			name = Network;
 			sourceTree = "<group>";
 		};
+		791F884C15558FC1005B3393 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				791F884D15558FD7005B3393 /* VBReachability.h */,
+				791F884E15558FD7005B3393 /* VBReachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		79789FCD155566F600E53489 = {
 			isa = PBXGroup;
 			children = (
@@ -259,6 +271,7 @@
 		7978A011155567FB00E53489 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				791F884C15558FC1005B3393 /* Reachability */,
 				791F882C15558F4A005B3393 /* Network */,
 				791F882B15558F3C005B3393 /* Navigation */,
 				791F882915558F14005B3393 /* Maps */,
@@ -405,6 +418,7 @@
 				791F884915558F87005B3393 /* AFURLConnectionOperation.m in Sources */,
 				791F884A15558F87005B3393 /* AFXMLRequestOperation.m in Sources */,
 				791F884B15558F87005B3393 /* UIImageView+AFNetworking.m in Sources */,
+				791F884F15558FD7005B3393 /* VBReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
