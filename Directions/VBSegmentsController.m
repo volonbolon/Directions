@@ -18,11 +18,19 @@
 @synthesize navigationController; 
 
 - (id)initWithNavigationController:(UINavigationController *)theNavigationController
-                   viewControllers:(NSArray *)viewControllers {
-    return nil;
+                   viewControllers:(NSArray *)vc {
+    self = [super init];
+    if ( self != nil ) {
+        [self setNavigationController:theNavigationController]; 
+        [self setViewControllers:vc]; 
+    }
+    return self; 
 }
 
-- (IBAction)indexDidChangeForSegmentedControl:(UISegmentedControl *)aSegmentedControl {
-    
+- (IBAction)indexDidChangeForSegmentedControl:(UISegmentedControl *)segmentedControl {
+    NSUInteger index = [segmentedControl selectedSegmentIndex]; 
+    UIViewController *incomingViewController = [[self viewControllers] objectAtIndex:index]; 
+    [[self navigationController] setViewControllers:[NSArray arrayWithObject:incomingViewController] animated:NO];
+    [[incomingViewController navigationItem] setTitleView:segmentedControl]; 
 }
 @end

@@ -15,5 +15,5 @@
 
 - (id)initWithNavigationController:(UINavigationController *)theNavigationController
                    viewControllers:(NSArray *)viewControllers;
-- (IBAction)indexDidChangeForSegmentedControl:(UISegmentedControl *)aSegmentedControl;
+- (IBAction)indexDidChangeForSegmentedControl:(UISegmentedControl *)segmentedControl;
 @end

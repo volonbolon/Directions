@@ -7,21 +7,41 @@
 //
 
 #import "VBAppDelegate.h"
+#import "VBMapViewController.h"
+#import "VBListViewController.h"
+#import "VBSegmentsController.h"
 
-#import "VBViewController.h"
+@interface VBAppDelegate ()
+- (NSArray *)segmentsViewControllers; 
+@end
 
 @implementation VBAppDelegate
 
 @synthesize window = _window;
-@synthesize viewController = _viewController;
+@synthesize segmentsController;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.viewController = [[VBViewController alloc] initWithNibName:@"VBViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
+- (BOOL)application:(UIApplication *)application 
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    UIWindow *w = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; 
+    [self setWindow:w]; 
+
+    UINavigationController *navigationController = [[UINavigationController alloc] init]; 
+    VBSegmentsController *segments = [[VBSegmentsController alloc] initWithNavigationController:navigationController 
+                                                                                viewControllers:[self segmentsViewControllers]];
+    [self setSegmentsController:segments]; 
+    NSArray *titles = [[NSArray alloc] initWithObjects:@"Map", @"List", nil];
+    UISegmentedControl *sc = [[UISegmentedControl alloc] initWithItems:titles];
+    [sc setSegmentedControlStyle:UISegmentedControlStyleBar]; 
+    [sc addTarget:segments
+           action:@selector(indexDidChangeForSegmentedControl:)
+ forControlEvents:UIControlEventValueChanged]; 
+    
+    [sc setSelectedSegmentIndex:0]; 
+    [segments indexDidChangeForSegmentedControl:sc]; 
+    
+    [[self window] addSubview:[navigationController view]]; 
+    [[self window] makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -50,6 +70,14 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (NSArray *)segmentsViewControllers {
+    VBMapViewController *mapViewController = [[VBMapViewController alloc] initWithNibName:@"VBMapViewController"
+                                                                                   bundle:nil]; 
+    VBListViewController *listViewController = [[VBListViewController alloc] initWithNibName:@"VBListViewController"
+                                                                                      bundle:nil]; 
+    return [NSArray arrayWithObjects:mapViewController, listViewController,nil]; 
 }
 
 @end

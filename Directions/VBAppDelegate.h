@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class VBViewController;
+@class VBSegmentsController;
 
 @interface VBAppDelegate : UIResponder <UIApplicationDelegate>
-
+@property (strong, nonatomic) VBSegmentsController *segmentsController;
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) VBViewController *viewController;
 
 @end
