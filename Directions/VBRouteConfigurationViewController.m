@@ -9,6 +9,7 @@
 #import "VBRouteConfigurationViewController.h"
 #import "VBAPIClient.h"
 #import "NSError+CoalesceError.h"
+#import "VBProgressHUD.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AddressBook/AddressBook.h>
 
@@ -22,6 +23,7 @@
 - (void)retrievePlacemarks; 
 - (void)completeRouteConfiguration; 
 - (void)handleRouteNotification:(NSNotification *)notification; 
+- (void)cleanView;  
 @end
 
 @implementation VBRouteConfigurationViewController
@@ -61,6 +63,25 @@
     [[self scrollView] setDelaysContentTouches:NO]; 
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [[self originStreetTextField] setText:@""]; 
+    [[self originCityTextField] setText:@""]; 
+    [[self originStateTextField] setText:@""]; 
+    
+    [[self destinationStreetTextField] setText:@""]; 
+    [[self destinationCityTextField] setText:@""]; 
+    [[self destinationStateTextField] setText:@""]; 
+    
+    [[self avoidTollsSwitch] setOn:NO];
+    [[self avoidHighwaysSwitch] setOn:NO];
+    
+    [[self modePickerView] selectRow:0
+                         inComponent:0 
+                            animated:NO];
+    
+    [super viewDidDisappear:animated]; 
+}
+
 - (void)viewDidUnload {
     [self setScrollView:nil];
     [self setOriginStreetTextField:nil];
@@ -82,9 +103,7 @@
 
 - (IBAction)cancelButtonTapped {
     [[self parentViewController] dismissViewControllerAnimated:YES
-                                                    completion:^{
-                                                        
-                                                    }]; 
+                                                    completion:^{}]; 
 }
 
 - (IBAction)doneButtonTapped {
@@ -97,6 +116,9 @@
         [missingData show]; 
         return; 
     }
+    [self cleanView]; 
+    [VBProgressHUD showWithStatus:@"Loading Route"
+                 networkIndicator:YES]; 
     [self retrievePlacemarks]; 
 }
 
@@ -105,7 +127,8 @@
     return 1;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+- (NSInteger)pickerView:(UIPickerView *)pickerView 
+numberOfRowsInComponent:(NSInteger)component {
     return [[self routeModes] count]; 
 }
 
@@ -234,12 +257,7 @@
     dispatch_group_notify(group, geocode_queue, ^{
         if ( originalError != nil ) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertView *geocoderError = [[UIAlertView alloc] initWithTitle:[originalError localizedDescription]
-                                                                        message:[originalError localizedRecoverySuggestion]
-                                                                       delegate:nil
-                                                              cancelButtonTitle:@"Dismiss" 
-                                                              otherButtonTitles:nil];
-                [geocoderError show]; 
+                [VBProgressHUD dismissWithError:@"Unable to found a suitable route" afterDelay:5]; 
             }); 
         } else {
             [self completeRouteConfiguration];
@@ -293,16 +311,26 @@
 - (void)handleRouteNotification:(NSNotification *)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self]; 
     if ( [[notification name] isEqualToString:kNewRouteNotificationName] ) {
+        [VBProgressHUD dismissWithSuccess:@"Route found"]; 
         [[self parentViewController] dismissViewControllerAnimated:YES 
                                                         completion:^{}]; 
     } else if ( [[notification name] isEqualToString:kRouteFailNotificationName] ) {
-        UIAlertView *noRouteAlertView = [[UIAlertView alloc] initWithTitle:@"No Route"
-                                                                   message:@"We were not able to found a route"
-                                                                  delegate:nil
-                                                         cancelButtonTitle:@"Dismiss"
-                                                         otherButtonTitles:nil]; 
-        [noRouteAlertView show]; 
+        [VBProgressHUD dismissWithError:@"No route found" 
+                             afterDelay:3]; 
     }
+}
+
+- (void)cleanView {
+    [[self originStreetTextField] resignFirstResponder]; 
+    [[self originCityTextField] resignFirstResponder]; 
+    [[self originStateTextField] resignFirstResponder]; 
+    
+    [[self destinationStreetTextField] resignFirstResponder]; 
+    [[self destinationCityTextField] resignFirstResponder]; 
+    [[self destinationStateTextField] resignFirstResponder]; 
+    
+    [[self scrollView] setContentOffset:CGPointMake(0, 0) 
+                               animated:YES]; 
 }
 
 @end
