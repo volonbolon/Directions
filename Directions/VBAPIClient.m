@@ -9,12 +9,20 @@
 #import "VBAPIClient.h"
 #import "AFJSONRequestOperation.h"
 
+NSString *const kOriginKey = @"origin";
+NSString *const kDestinationKey = @"destination";
+NSString *const kModeKey = @"mode";
+NSString *const kAvoidKey = @"avoid";
+NSString *const kSensorKey = @"sensor";
+
 @interface VBAPIClient ()
 @property (strong, readwrite) NSArray *routePoints;
+@property (assign) BOOL processing; 
 @end
 
 @implementation VBAPIClient
 @synthesize routePoints;
+@synthesize processing; 
 
 + (VBAPIClient *)sharedClient {
     static dispatch_once_t pred;
@@ -36,25 +44,32 @@
         // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
         [self setDefaultHeader:@"Accept" 
                          value:@"application/json"];
+        
+        [self setProcessing:NO]; 
     }
     
     return self;
 }
 
 - (void)produceRouteWithUserInformation:(NSDictionary *)userInfo {
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:@"-34.630672,-58.434915", @"origin", 
-                            @"-34.777428,-58.463057", @"destination", 
-                            @"false", @"sensor", nil]; 
+    if ( [self processing] ) {
+        return; 
+    }
+    
     NSURLRequest *request = [self requestWithMethod:@"GET"
                                                path:@"maps/api/directions/json" 
-                                         parameters:params]; 
+                                         parameters:userInfo]; 
+    NSLog(@"%@", [[request URL] absoluteString]);
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
                                                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
                                                                                             NSLog(@"%@", JSON);
+                                                                                            [self setProcessing:NO]; 
                                                                                         } 
                                                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
                                                                                             NSLog(@"%@", error);
+                                                                                            [self setProcessing:NO]; 
                                                                                         }]; 
+    [self setProcessing:YES]; 
     [operation start]; 
 }
 

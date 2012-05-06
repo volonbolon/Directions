@@ -7,6 +7,7 @@
 //
 
 #import "VBRouteConfigurationViewController.h"
+#import "VBAPIClient.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AddressBook/AddressBook.h>
 
@@ -92,23 +93,9 @@
                                                     cancelButtonTitle:@"Dismiss"
                                                     otherButtonTitles:nil];
         [missingData show]; 
+        return; 
     }
     [self retrievePlacemarks]; 
-    
-    
-    
-   /*  
-    NSString *originCityName = [[self originCityTextField] text]; 
-    NSString *originStreetName = [[self originStreetTextField] text]; 
-    NSString *originStateName = [[self originStateTextField] text]; 
-
-    if ( [originCityName length] == 0 || [originStreetName length] == 0 || [originStateName length] > 0 ) {
-        
-    } 
-    
-    [geocoder geocodeAddressDictionary:<#(NSDictionary *)#> completionHandler:<#^(NSArray *placemarks, NSError *error)completionHandler#>
-    NSDictionary *originDestination = [[NSDictionary alloc] initWithObjectsAndKeys:<#(id), ...#>, nil];
-    NSDictionary *destinationDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:<#(id), ...#>, nil]; **/
 }
 
 #pragma mark - UIPickerViewDataSource
@@ -153,10 +140,8 @@
     if ( [textField isEqual:[self originStreetTextField]] ) {
         [[self originCityTextField] becomeFirstResponder];
     } else if ( [textField isEqual:[self originCityTextField]] ) {
-        [[self destinationCityTextField] setText:[textField text]];
         [[self originStateTextField] becomeFirstResponder];
-    } else if ( [textField isEqual:[self originStateTextField]] ) {
-        [[self destinationStateTextField] setText:[textField text]]; 
+    } else if ( [textField isEqual:[self originStateTextField]] ) { 
         [[self destinationStreetTextField] becomeFirstResponder];
     } else if ( [textField isEqual:[self destinationStreetTextField]] ) {
         [[self destinationCityTextField] becomeFirstResponder];
@@ -166,7 +151,16 @@
         [textField resignFirstResponder]; 
     }
     
-    
+    return YES; 
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    if ( [textField  isEqual:[self originCityTextField]] ) {
+        [[self destinationCityTextField] setText:[textField text]]; 
+    }
+    if ( [textField  isEqual:[self originStateTextField]] ) {
+        [[self destinationStateTextField] setText:[textField text]]; 
+    }
     return YES; 
 }
 
@@ -246,14 +240,43 @@
     });
     
     dispatch_group_notify(group, geocode_queue, ^{
-        [self completeRouteConfiguration];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self completeRouteConfiguration];
+        });
     });
 }
 
 - (void)completeRouteConfiguration {
-    NSLog(@"%@", originPlacemark); 
-    NSLog(@"%@", destinationPlacemark);
-    NSLog(@"completeRouteConfiguration");
+    CLLocation *originLocation = [originPlacemark location]; 
+    CLLocation *destinationLocation = [destinationPlacemark location]; 
+    
+    NSString *originAsString = [[NSString alloc] initWithFormat:@"%f,%f", [originLocation coordinate].latitude, [originLocation coordinate].longitude];
+    NSString *destinationAsString = [[NSString alloc] initWithFormat:@"%f,%f", [destinationLocation coordinate].latitude, [destinationLocation coordinate].longitude]; 
+    
+    NSMutableArray *avoidBits = [[NSMutableArray alloc] initWithCapacity:2];
+    
+    if ( [[self avoidTollsSwitch] isOn] ) {
+        [avoidBits addObject:@"tolls"]; 
+    }
+    if ( [[self avoidHighwaysSwitch] isOn] ) {
+        [avoidBits addObject:@"highways"]; 
+    }
+    
+    NSDictionary *userInfo = nil; 
+    if ( [avoidBits count] > 0 ) {
+       userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:originAsString, kOriginKey,
+                   destinationAsString, kDestinationKey,
+                   [avoidBits componentsJoinedByString:@","], kAvoidKey, 
+                   [[self routeModes] objectAtIndex:[[self modePickerView] selectedRowInComponent:0]], kModeKey,
+                   @"true", kSensorKey, nil]; 
+    } else {
+        userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:originAsString, kOriginKey,
+                    destinationAsString, kDestinationKey,
+                    [[self routeModes] objectAtIndex:[[self modePickerView] selectedRowInComponent:0]], kModeKey, 
+                    @"true", kSensorKey, nil]; 
+    }
+    
+    [[VBAPIClient sharedClient] produceRouteWithUserInformation:userInfo]; 
 }
 
 @end

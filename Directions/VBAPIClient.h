@@ -8,6 +8,12 @@
 
 #import "AFHTTPClient.h"
 
+extern NSString *const kOriginKey;
+extern NSString *const kDestinationKey;
+extern NSString *const kModeKey;
+extern NSString *const kAvoidKey;
+extern NSString *const kSensorKey;
+
 @interface VBAPIClient : AFHTTPClient
 @property (strong, readonly) NSArray *routePoints; 
 + (VBAPIClient *)sharedClient;
