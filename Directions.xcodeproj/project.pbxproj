@@ -23,6 +23,7 @@
 		791F88591555A2D1005B3393 /* VBRouteConfigurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F88571555A2D1005B3393 /* VBRouteConfigurationViewController.m */; };
 		791F885A1555A2D1005B3393 /* VBRouteConfigurationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 791F88581555A2D1005B3393 /* VBRouteConfigurationViewController.xib */; };
 		791F885D1555C3FA005B3393 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 791F885C1555C3F9005B3393 /* AddressBook.framework */; };
+		791F88611556D6A4005B3393 /* NSError+CoalesceError.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F88601556D6A4005B3393 /* NSError+CoalesceError.m */; };
 		79789FDD155566F600E53489 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FDC155566F600E53489 /* UIKit.framework */; };
 		79789FDF155566F600E53489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FDE155566F600E53489 /* Foundation.framework */; };
 		79789FE1155566F600E53489 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FE0155566F600E53489 /* CoreGraphics.framework */; };
@@ -92,6 +93,8 @@
 		791F88581555A2D1005B3393 /* VBRouteConfigurationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VBRouteConfigurationViewController.xib; sourceTree = "<group>"; };
 		791F885B1555A41F005B3393 /* ConstantsAndMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstantsAndMacros.h; sourceTree = "<group>"; };
 		791F885C1555C3F9005B3393 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		791F885F1556D6A4005B3393 /* NSError+CoalesceError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+CoalesceError.h"; sourceTree = "<group>"; };
+		791F88601556D6A4005B3393 /* NSError+CoalesceError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+CoalesceError.m"; sourceTree = "<group>"; };
 		79789FD8155566F600E53489 /* Directions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Directions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79789FDC155566F600E53489 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		79789FDE155566F600E53489 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -217,6 +220,15 @@
 			name = "API Client";
 			sourceTree = "<group>";
 		};
+		791F885E1556D65E005B3393 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				791F885F1556D6A4005B3393 /* NSError+CoalesceError.h */,
+				791F88601556D6A4005B3393 /* NSError+CoalesceError.m */,
+			);
+			name = Errors;
+			sourceTree = "<group>";
+		};
 		79789FCD155566F600E53489 = {
 			isa = PBXGroup;
 			children = (
@@ -298,6 +310,7 @@
 		7978A011155567FB00E53489 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				791F885E1556D65E005B3393 /* Errors */,
 				791F885215559824005B3393 /* API Client */,
 				791F884C15558FC1005B3393 /* Reachability */,
 				791F882C15558F4A005B3393 /* Network */,
@@ -453,6 +466,7 @@
 				791F884F15558FD7005B3393 /* VBReachability.m in Sources */,
 				791F88551555984C005B3393 /* VBAPIClient.m in Sources */,
 				791F88591555A2D1005B3393 /* VBRouteConfigurationViewController.m in Sources */,
+				791F88611556D6A4005B3393 /* NSError+CoalesceError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

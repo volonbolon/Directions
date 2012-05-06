@@ -8,13 +8,14 @@
 
 #import "VBRouteConfigurationViewController.h"
 #import "VBAPIClient.h"
+#import "NSError+CoalesceError.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AddressBook/AddressBook.h>
 
 @interface VBRouteConfigurationViewController ()
 @property (strong) NSArray *routeModes; 
 @property (strong) CLPlacemark *originPlacemark; 
-@property (strong) CLPlacemark *destinationPlacemark; 
+@property (strong) CLPlacemark *destinationPlacemark;
 
 - (BOOL)checkOrigin; 
 - (BOOL)checkDestination; 
@@ -177,6 +178,8 @@
     geocode_queue = dispatch_queue_create("vb.directions.geocode_queue", NULL);
     dispatch_group_t group = dispatch_group_create();
     
+    __block NSError *originalError = nil; 
+    
     NSDictionary *originDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[[self originStreetTextField] text], kABPersonAddressStreetKey, 
                                       [[self originCityTextField] text], kABPersonAddressCityKey, 
                                       [[self originStateTextField] text], kABPersonAddressStateKey, nil]; 
@@ -192,14 +195,8 @@
         [geocoder geocodeAddressDictionary:originDictionary 
                          completionHandler:^(NSArray *placemarks, NSError *error) {
                              if ( error != nil ) {
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     UIAlertView *geocoderErrorAlertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
-                                                                                                      message:[error localizedRecoverySuggestion]
-                                                                                                     delegate:nil
-                                                                                            cancelButtonTitle:@"Dismiss" 
-                                                                                            otherButtonTitles:nil]; 
-                                     [geocoderErrorAlertView show]; 
-                                 }); 
+                                 originalError = [NSError errorFromOriginalError:originalError
+                                                                           error:error]; 
                              } else {
                                  if ( [placemarks count] > 0 ) {
                                      [self setOriginPlacemark:[placemarks objectAtIndex:0]]; 
@@ -219,14 +216,8 @@
         [geocoder geocodeAddressDictionary:destinationDictionary
                          completionHandler:^(NSArray *placemarks, NSError *error) {
                              if ( error != nil ) {
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     UIAlertView *geocoderErrorAlertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
-                                                                                                      message:[error localizedRecoverySuggestion]
-                                                                                                     delegate:nil
-                                                                                            cancelButtonTitle:@"Dismiss" 
-                                                                                            otherButtonTitles:nil]; 
-                                     [geocoderErrorAlertView show]; 
-                                 }); 
+                                 originalError = [NSError errorFromOriginalError:originalError
+                                                                           error:error]; 
                              } else {
                                  if ( [placemarks count] > 0 ) {
                                      [self setDestinationPlacemark:[placemarks objectAtIndex:0]]; 
@@ -240,9 +231,20 @@
     });
     
     dispatch_group_notify(group, geocode_queue, ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self completeRouteConfiguration];
-        });
+        if ( originalError != nil ) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *geocoderError = [[UIAlertView alloc] initWithTitle:[originalError localizedDescription]
+                                                                        message:[originalError localizedRecoverySuggestion]
+                                                                       delegate:nil
+                                                              cancelButtonTitle:@"Dismiss" 
+                                                              otherButtonTitles:nil];
+                [geocoderError show]; 
+            }); 
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self completeRouteConfiguration];
+            });
+        }
     });
 }
 

@@ -15,6 +15,9 @@ NSString *const kModeKey = @"mode";
 NSString *const kAvoidKey = @"avoid";
 NSString *const kSensorKey = @"sensor";
 
+NSString *const kNewRouteNotificationName = @"newRouteNotificationName";
+NSString *const kRouteFailNotificationName = @"routeFailNotificationName";
+
 @interface VBAPIClient ()
 @property (strong, readwrite) NSArray *routePoints;
 @property (assign) BOOL processing; 
@@ -64,10 +67,18 @@ NSString *const kSensorKey = @"sensor";
                                                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
                                                                                             NSLog(@"%@", JSON);
                                                                                             [self setProcessing:NO]; 
+                                                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:kNewRouteNotificationName
+                                                                                                                                                    object:nil]; 
+                                                                                            }); 
                                                                                         } 
                                                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
                                                                                             NSLog(@"%@", error);
                                                                                             [self setProcessing:NO]; 
+                                                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                                [[NSNotificationCenter defaultCenter] postNotificationName:kRouteFailNotificationName
+                                                                                                                                                    object:nil]; 
+                                                                                            });
                                                                                         }]; 
     [self setProcessing:YES]; 
     [operation start]; 

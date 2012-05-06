@@ -14,6 +14,9 @@ extern NSString *const kModeKey;
 extern NSString *const kAvoidKey;
 extern NSString *const kSensorKey;
 
+extern NSString *const kNewRouteNotificationName;
+extern NSString *const kRouteFailNotificationName;
+
 @interface VBAPIClient : AFHTTPClient
 @property (strong, readonly) NSArray *routePoints; 
 + (VBAPIClient *)sharedClient;
