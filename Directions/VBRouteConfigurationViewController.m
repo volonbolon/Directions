@@ -21,6 +21,7 @@
 - (BOOL)checkDestination; 
 - (void)retrievePlacemarks; 
 - (void)completeRouteConfiguration; 
+- (void)handleRouteNotification:(NSNotification *)notification; 
 @end
 
 @implementation VBRouteConfigurationViewController
@@ -241,14 +242,22 @@
                 [geocoderError show]; 
             }); 
         } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self completeRouteConfiguration];
-            });
+            [self completeRouteConfiguration];
         }
     });
 }
 
 - (void)completeRouteConfiguration {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleRouteNotification:)
+                                                     name:kNewRouteNotificationName
+                                                   object:nil]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleRouteNotification:)
+                                                     name:kRouteFailNotificationName
+                                                   object:nil]; 
+    }); 
     CLLocation *originLocation = [originPlacemark location]; 
     CLLocation *destinationLocation = [destinationPlacemark location]; 
     
@@ -279,6 +288,21 @@
     }
     
     [[VBAPIClient sharedClient] produceRouteWithUserInformation:userInfo]; 
+}
+
+- (void)handleRouteNotification:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self]; 
+    if ( [[notification name] isEqualToString:kNewRouteNotificationName] ) {
+        [[self parentViewController] dismissViewControllerAnimated:YES 
+                                                        completion:^{}]; 
+    } else if ( [[notification name] isEqualToString:kRouteFailNotificationName] ) {
+        UIAlertView *noRouteAlertView = [[UIAlertView alloc] initWithTitle:@"No Route"
+                                                                   message:@"We were not able to found a route"
+                                                                  delegate:nil
+                                                         cancelButtonTitle:@"Dismiss"
+                                                         otherButtonTitles:nil]; 
+        [noRouteAlertView show]; 
+    }
 }
 
 @end
