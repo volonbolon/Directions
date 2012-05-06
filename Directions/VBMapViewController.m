@@ -7,9 +7,11 @@
 //
 
 #import "VBMapViewController.h"
+#import "VBAPIClient.h"
+#import "MKPolyline+GoogleAPIEncodedString.h"
 
-@interface VBMapViewController ()
-
+@interface VBMapViewController () 
+ 
 @end
 
 @implementation VBMapViewController
@@ -43,6 +45,34 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)showRoute {
+    NSDictionary *route = [[[[VBAPIClient sharedClient] route] objectForKey:@"routes"] objectAtIndex:0];
+    NSDictionary *bounds = [route objectForKey:@"bounds"];
+    NSDictionary *northeastDictionary = [bounds objectForKey:@"northeast"]; 
+    NSDictionary *southwestDictionary = [bounds objectForKey:@"southwest"]; 
+    CLLocationCoordinate2D northeastCoordinate = CLLocationCoordinate2DMake([[northeastDictionary objectForKey:@"lat"] doubleValue], [[northeastDictionary objectForKey:@"lng"] doubleValue]);
+     CLLocationCoordinate2D southwestCoordinate = CLLocationCoordinate2DMake([[southwestDictionary objectForKey:@"lat"] doubleValue], [[southwestDictionary objectForKey:@"lng"] doubleValue]);
+    MKMapPoint northeastPoint = MKMapPointForCoordinate(northeastCoordinate); 
+    MKMapPoint southwestPoint = MKMapPointForCoordinate(southwestCoordinate); 
+    
+    MKMapRect mapRect = MKMapRectMake(fmin(northeastPoint.x, southwestPoint.x), fmin(northeastPoint.y, southwestPoint.y), fabs(northeastPoint.x - southwestPoint.x), fabs(northeastPoint.y - southwestPoint.y)); 
+
+    [[self mapView] setVisibleMapRect:mapRect animated:YES]; 
+    
+    NSString *encodedPolyline = [[route objectForKey:@"overview_polyline"] objectForKey:@"points"]; 
+    MKPolyline *polyline = [MKPolyline polylineWithEncodedString:encodedPolyline]; 
+    [[self mapView] addOverlay:polyline]; 
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView
+            viewForOverlay:(id<MKOverlay>)overlay {
+    MKPolylineView *overlayView = [[MKPolylineView alloc] initWithOverlay:overlay];
+    overlayView.lineWidth = 5;
+    overlayView.strokeColor = [UIColor purpleColor];
+    overlayView.fillColor = [[UIColor purpleColor] colorWithAlphaComponent:0.5f];
+    return overlayView;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

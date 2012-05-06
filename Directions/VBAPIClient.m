@@ -19,12 +19,12 @@ NSString *const kNewRouteNotificationName = @"newRouteNotificationName";
 NSString *const kRouteFailNotificationName = @"routeFailNotificationName";
 
 @interface VBAPIClient ()
-@property (strong, readwrite) NSArray *routePoints;
+@property (strong, readwrite) NSDictionary *route; 
 @property (assign) BOOL processing; 
 @end
 
 @implementation VBAPIClient
-@synthesize routePoints;
+@synthesize route;
 @synthesize processing; 
 
 + (VBAPIClient *)sharedClient {
@@ -62,10 +62,9 @@ NSString *const kRouteFailNotificationName = @"routeFailNotificationName";
     NSURLRequest *request = [self requestWithMethod:@"GET"
                                                path:@"maps/api/directions/json" 
                                          parameters:userInfo]; 
-    NSLog(@"%@", [[request URL] absoluteString]);
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request 
                                                                                         success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-                                                                                            NSLog(@"%@", JSON);
+                                                                                            [self setRoute:JSON]; 
                                                                                             [self setProcessing:NO]; 
                                                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:kNewRouteNotificationName
@@ -80,6 +79,7 @@ NSString *const kRouteFailNotificationName = @"routeFailNotificationName";
                                                                                                                                                     object:nil]; 
                                                                                             });
                                                                                         }]; 
+    [self setRoute:nil]; 
     [self setProcessing:YES]; 
     [operation start]; 
 }

@@ -9,10 +9,12 @@
 #import "VBSegmentsController.h"
 #import "VBAPIClient.h"
 #import "VBRouteConfigurationViewController.h"
+#import "VBRoutePresentation.h"
 
 @interface VBSegmentsController ()
 @property (strong, nonatomic, readwrite) NSArray *viewControllers; 
 @property (strong, nonatomic, readwrite) UINavigationController *navigationController; 
+- (void)handleRouteNotification:(NSNotification *)notification; 
 @end
 
 @implementation VBSegmentsController
@@ -25,8 +27,20 @@
     if ( self != nil ) {
         [self setNavigationController:theNavigationController]; 
         [self setViewControllers:vc]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(handleRouteNotification:)
+                                                     name:kNewRouteNotificationName
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(handleRouteNotification:)
+                                                     name:kRouteFailNotificationName
+                                                   object:nil];
     }
     return self; 
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self]; 
 }
 
 - (IBAction)indexDidChangeForSegmentedControl:(UISegmentedControl *)segmentedControl {
@@ -49,6 +63,13 @@
     [[self navigationController] presentViewController:rootController
                                               animated:YES 
                                             completion:^{}]; 
+}
+
+- (void)handleRouteNotification:(NSNotification *)notification {
+    if ( [[[[self navigationController] viewControllers] objectAtIndex:0] conformsToProtocol:@protocol(VBRoutePresentation)] ) {
+        UIViewController <VBRoutePresentation>*vc = (UIViewController <VBRoutePresentation> *)[[[self navigationController] viewControllers] objectAtIndex:0];
+        [vc showRoute];
+    }
 }
 
 @end

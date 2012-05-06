@@ -129,6 +129,7 @@
 		7978A02615556B3F00E53489 /* VBListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VBListViewController.xib; sourceTree = "<group>"; };
 		7978A02915556D0100E53489 /* VBSegmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBSegmentsController.h; sourceTree = "<group>"; };
 		7978A02A15556D0100E53489 /* VBSegmentsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBSegmentsController.m; sourceTree = "<group>"; };
+		79A9BB15155700550072749E /* VBRoutePresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBRoutePresentation.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +167,7 @@
 			children = (
 				7978A0121555682400E53489 /* MKPolyline+GoogleAPIEncodedString.h */,
 				7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */,
+				79A9BB15155700550072749E /* VBRoutePresentation.h */,
 			);
 			name = Maps;
 			sourceTree = "<group>";

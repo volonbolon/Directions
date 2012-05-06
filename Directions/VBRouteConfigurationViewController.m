@@ -55,8 +55,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[self navigationItem] setLeftBarButtonItem:SYSBARBUTTON(UIBarButtonSystemItemCancel, @selector(cancelButtonTapped))]; 
-    [[self navigationItem] setRightBarButtonItem:SYSBARBUTTON(UIBarButtonSystemItemDone, @selector(doneButtonTapped))]; 
+    UIBarButtonItem *cancelButtonItem = SYSBARBUTTON(UIBarButtonSystemItemCancel, @selector(cancelButtonTapped)); 
+    [cancelButtonItem setAccessibilityHint:@"Cancel"];
+    [cancelButtonItem setAccessibilityLabel:@"Cancel"]; 
+    [[self navigationItem] setLeftBarButtonItem:cancelButtonItem]; 
+    
+    UIBarButtonItem *doneButtonItem = SYSBARBUTTON(UIBarButtonSystemItemDone, @selector(doneButtonTapped)); 
+    [doneButtonItem setAccessibilityHint:@"Done"];
+    [doneButtonItem setAccessibilityLabel:@"Done"]; 
+    [[self navigationItem] setRightBarButtonItem:doneButtonItem]; 
     
     [[self scrollView] setContentSize:CGSizeMake(320, 563)];
     [[self scrollView] setCanCancelContentTouches:NO]; 

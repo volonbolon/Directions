@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "VBRoutePresentation.h"
 
-@interface VBMapViewController : UIViewController
+@interface VBMapViewController : UIViewController <MKMapViewDelegate, VBRoutePresentation>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-
 @end

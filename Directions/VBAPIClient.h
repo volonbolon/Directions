@@ -18,7 +18,7 @@ extern NSString *const kNewRouteNotificationName;
 extern NSString *const kRouteFailNotificationName;
 
 @interface VBAPIClient : AFHTTPClient
-@property (strong, readonly) NSArray *routePoints; 
+@property (strong, readonly) NSDictionary *route;  
 + (VBAPIClient *)sharedClient;
 - (void)produceRouteWithUserInformation:(NSDictionary *)userInfo; 
 - (BOOL)shouldAskForNewParams;
