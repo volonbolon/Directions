@@ -7,9 +7,18 @@
 //
 
 #import "VBRouteConfigurationViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import <AddressBook/AddressBook.h>
 
 @interface VBRouteConfigurationViewController ()
 @property (strong) NSArray *routeModes; 
+@property (strong) CLPlacemark *originPlacemark; 
+@property (strong) CLPlacemark *destinationPlacemark; 
+
+- (BOOL)checkOrigin; 
+- (BOOL)checkDestination; 
+- (void)retrievePlacemarks; 
+- (void)completeRouteConfiguration; 
 @end
 
 @implementation VBRouteConfigurationViewController
@@ -25,6 +34,8 @@
 @synthesize modePickerView;
 
 @synthesize routeModes; 
+@synthesize originPlacemark; 
+@synthesize destinationPlacemark; 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -74,7 +85,30 @@
 }
 
 - (IBAction)doneButtonTapped {
+    if ( ![self checkOrigin] || ![self checkDestination] ) {
+        UIAlertView *missingData = [[UIAlertView alloc] initWithTitle:@"Missing Data"
+                                                              message:@"Origin and Destination information whould be completed"
+                                                             delegate:nil
+                                                    cancelButtonTitle:@"Dismiss"
+                                                    otherButtonTitles:nil];
+        [missingData show]; 
+    }
+    [self retrievePlacemarks]; 
     
+    
+    
+   /*  
+    NSString *originCityName = [[self originCityTextField] text]; 
+    NSString *originStreetName = [[self originStreetTextField] text]; 
+    NSString *originStateName = [[self originStateTextField] text]; 
+
+    if ( [originCityName length] == 0 || [originStreetName length] == 0 || [originStateName length] > 0 ) {
+        
+    } 
+    
+    [geocoder geocodeAddressDictionary:<#(NSDictionary *)#> completionHandler:<#^(NSArray *placemarks, NSError *error)completionHandler#>
+    NSDictionary *originDestination = [[NSDictionary alloc] initWithObjectsAndKeys:<#(id), ...#>, nil];
+    NSDictionary *destinationDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:<#(id), ...#>, nil]; **/
 }
 
 #pragma mark - UIPickerViewDataSource
@@ -119,8 +153,10 @@
     if ( [textField isEqual:[self originStreetTextField]] ) {
         [[self originCityTextField] becomeFirstResponder];
     } else if ( [textField isEqual:[self originCityTextField]] ) {
+        [[self destinationCityTextField] setText:[textField text]];
         [[self originStateTextField] becomeFirstResponder];
     } else if ( [textField isEqual:[self originStateTextField]] ) {
+        [[self destinationStateTextField] setText:[textField text]]; 
         [[self destinationStreetTextField] becomeFirstResponder];
     } else if ( [textField isEqual:[self destinationStreetTextField]] ) {
         [[self destinationCityTextField] becomeFirstResponder];
@@ -132,6 +168,92 @@
     
     
     return YES; 
+}
+
+- (BOOL)checkOrigin {
+    return [[[self originStreetTextField] text] length] > 0 && [[[self originCityTextField] text] length] > 0 && [[[self originStateTextField] text] length] > 0; 
+}
+
+- (BOOL)checkDestination {
+    return [[[self destinationStreetTextField] text] length] > 0 && [[[self destinationCityTextField] text] length] > 0 && [[[self destinationStateTextField] text] length] > 0;
+}
+
+- (void)retrievePlacemarks {
+    dispatch_queue_t geocode_queue;
+    geocode_queue = dispatch_queue_create("vb.directions.geocode_queue", NULL);
+    dispatch_group_t group = dispatch_group_create();
+    
+    NSDictionary *originDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[[self originStreetTextField] text], kABPersonAddressStreetKey, 
+                                      [[self originCityTextField] text], kABPersonAddressCityKey, 
+                                      [[self originStateTextField] text], kABPersonAddressStateKey, nil]; 
+    
+    NSDictionary *destinationDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[[self destinationStreetTextField] text], kABPersonAddressStreetKey, 
+                                           [[self destinationCityTextField] text], kABPersonAddressCityKey, 
+                                           [[self destinationStateTextField] text], kABPersonAddressStateKey, nil]; 
+    
+    dispatch_group_async(group, geocode_queue, ^{
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init]; 
+    
+        [geocoder geocodeAddressDictionary:originDictionary 
+                         completionHandler:^(NSArray *placemarks, NSError *error) {
+                             if ( error != nil ) {
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     UIAlertView *geocoderErrorAlertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
+                                                                                                      message:[error localizedRecoverySuggestion]
+                                                                                                     delegate:nil
+                                                                                            cancelButtonTitle:@"Dismiss" 
+                                                                                            otherButtonTitles:nil]; 
+                                     [geocoderErrorAlertView show]; 
+                                 }); 
+                             } else {
+                                 if ( [placemarks count] > 0 ) {
+                                     [self setOriginPlacemark:[placemarks objectAtIndex:0]]; 
+                                 }
+                             }
+                             dispatch_semaphore_signal(semaphore);
+                         }]; 
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_release(semaphore);
+    });
+    
+    dispatch_group_async(group, geocode_queue, ^{
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+                
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init]; 
+        
+        [geocoder geocodeAddressDictionary:destinationDictionary
+                         completionHandler:^(NSArray *placemarks, NSError *error) {
+                             if ( error != nil ) {
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     UIAlertView *geocoderErrorAlertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
+                                                                                                      message:[error localizedRecoverySuggestion]
+                                                                                                     delegate:nil
+                                                                                            cancelButtonTitle:@"Dismiss" 
+                                                                                            otherButtonTitles:nil]; 
+                                     [geocoderErrorAlertView show]; 
+                                 }); 
+                             } else {
+                                 if ( [placemarks count] > 0 ) {
+                                     [self setDestinationPlacemark:[placemarks objectAtIndex:0]]; 
+                                 }
+                             }
+                             dispatch_semaphore_signal(semaphore);
+                         }]; 
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        dispatch_release(semaphore);
+    });
+    
+    dispatch_group_notify(group, geocode_queue, ^{
+        [self completeRouteConfiguration];
+    });
+}
+
+- (void)completeRouteConfiguration {
+    NSLog(@"%@", originPlacemark); 
+    NSLog(@"%@", destinationPlacemark);
+    NSLog(@"completeRouteConfiguration");
 }
 
 @end

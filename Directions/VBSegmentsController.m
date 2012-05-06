@@ -34,7 +34,10 @@
     UIViewController *incomingViewController = [[self viewControllers] objectAtIndex:index]; 
     [[self navigationController] setViewControllers:[NSArray arrayWithObject:incomingViewController] animated:NO];
     [[incomingViewController navigationItem] setTitleView:segmentedControl]; 
-    [[incomingViewController navigationItem] setRightBarButtonItem:BARBUTTON(@"New Route", @selector(presentNewRouteConfiguration))]; 
+    UIBarButtonItem *newRouteButtonItem = BARBUTTON(@"New Route", @selector(presentNewRouteConfiguration)); 
+    [newRouteButtonItem setAccessibilityLabel:@"New Route"]; 
+    [newRouteButtonItem setAccessibilityHint:@"New Route"]; 
+    [[incomingViewController navigationItem] setRightBarButtonItem:newRouteButtonItem]; 
 }
 
 - (IBAction)presentNewRouteConfiguration {

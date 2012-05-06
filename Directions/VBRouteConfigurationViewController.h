@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+/* extern const CFStringRef kABPersonAddressStreetKey;
+extern const CFStringRef kABPersonAddressCityKey;
+extern const CFStringRef kABPersonAddressStateKey;
+extern const CFStringRef kABPersonAddressZIPKey;
+extern const CFStringRef kABPersonAddressCountryKey;
+extern const CFStringRef kABPersonAddressCountryCodeKey; */
+
 @interface VBRouteConfigurationViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UIScrollViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *originStreetTextField;
