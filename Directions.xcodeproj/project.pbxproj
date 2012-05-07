@@ -51,6 +51,7 @@
 		7978A02715556B3F00E53489 /* VBListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A02515556B3F00E53489 /* VBListViewController.m */; };
 		7978A02815556B3F00E53489 /* VBListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A02615556B3F00E53489 /* VBListViewController.xib */; };
 		7978A02B15556D0100E53489 /* VBSegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A02A15556D0100E53489 /* VBSegmentsController.m */; };
+		79A9BB1915572C4D0072749E /* VBCopilot.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A9BB1815572C4D0072749E /* VBCopilot.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +131,8 @@
 		7978A02915556D0100E53489 /* VBSegmentsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBSegmentsController.h; sourceTree = "<group>"; };
 		7978A02A15556D0100E53489 /* VBSegmentsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBSegmentsController.m; sourceTree = "<group>"; };
 		79A9BB15155700550072749E /* VBRoutePresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBRoutePresentation.h; sourceTree = "<group>"; };
+		79A9BB1715572C4D0072749E /* VBCopilot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBCopilot.h; sourceTree = "<group>"; };
+		79A9BB1815572C4D0072749E /* VBCopilot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBCopilot.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +171,8 @@
 				7978A0121555682400E53489 /* MKPolyline+GoogleAPIEncodedString.h */,
 				7978A0131555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m */,
 				79A9BB15155700550072749E /* VBRoutePresentation.h */,
+				79A9BB1715572C4D0072749E /* VBCopilot.h */,
+				79A9BB1815572C4D0072749E /* VBCopilot.m */,
 			);
 			name = Maps;
 			sourceTree = "<group>";
@@ -487,6 +492,7 @@
 				791F88591555A2D1005B3393 /* VBRouteConfigurationViewController.m in Sources */,
 				791F88611556D6A4005B3393 /* NSError+CoalesceError.m in Sources */,
 				7971E5EE1556E8A600FEC4B6 /* VBProgressHUD.m in Sources */,
+				79A9BB1915572C4D0072749E /* VBCopilot.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
