@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
-
-@interface VBCopilot : NSObject
+@interface VBCopilot : NSObject <CLLocationManagerDelegate>
 + (VBCopilot *)sharedCopilot; 
 @property (strong, readonly) NSDictionary *currentStep; 
 @end
