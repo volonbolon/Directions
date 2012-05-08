@@ -24,6 +24,7 @@
 		791F885A1555A2D1005B3393 /* VBRouteConfigurationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 791F88581555A2D1005B3393 /* VBRouteConfigurationViewController.xib */; };
 		791F885D1555C3FA005B3393 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 791F885C1555C3F9005B3393 /* AddressBook.framework */; };
 		791F88611556D6A4005B3393 /* NSError+CoalesceError.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F88601556D6A4005B3393 /* NSError+CoalesceError.m */; };
+		7938E24015596BD900843F5E /* UIAlertView+VBErrorFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = 7938E23F15596BD900843F5E /* UIAlertView+VBErrorFeedback.m */; };
 		7971E5ED1556E8A600FEC4B6 /* VBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7971E5EA1556E8A600FEC4B6 /* VBProgressHUD.bundle */; };
 		7971E5EE1556E8A600FEC4B6 /* VBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7971E5EC1556E8A600FEC4B6 /* VBProgressHUD.m */; };
 		79789FDD155566F600E53489 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79789FDC155566F600E53489 /* UIKit.framework */; };
@@ -52,6 +53,7 @@
 		7978A02815556B3F00E53489 /* VBListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A02615556B3F00E53489 /* VBListViewController.xib */; };
 		7978A02B15556D0100E53489 /* VBSegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A02A15556D0100E53489 /* VBSegmentsController.m */; };
 		79A9BB1915572C4D0072749E /* VBCopilot.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A9BB1815572C4D0072749E /* VBCopilot.m */; };
+		79F3D45115589B5F0090B398 /* 71-compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 79F3D45015589B5F0090B398 /* 71-compass.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,8 @@
 		791F885C1555C3F9005B3393 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		791F885F1556D6A4005B3393 /* NSError+CoalesceError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+CoalesceError.h"; sourceTree = "<group>"; };
 		791F88601556D6A4005B3393 /* NSError+CoalesceError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+CoalesceError.m"; sourceTree = "<group>"; };
+		7938E23E15596BD900843F5E /* UIAlertView+VBErrorFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+VBErrorFeedback.h"; sourceTree = "<group>"; };
+		7938E23F15596BD900843F5E /* UIAlertView+VBErrorFeedback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+VBErrorFeedback.m"; sourceTree = "<group>"; };
 		7971E5EA1556E8A600FEC4B6 /* VBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = VBProgressHUD.bundle; sourceTree = "<group>"; };
 		7971E5EB1556E8A600FEC4B6 /* VBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBProgressHUD.h; sourceTree = "<group>"; };
 		7971E5EC1556E8A600FEC4B6 /* VBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBProgressHUD.m; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 		79A9BB15155700550072749E /* VBRoutePresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBRoutePresentation.h; sourceTree = "<group>"; };
 		79A9BB1715572C4D0072749E /* VBCopilot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBCopilot.h; sourceTree = "<group>"; };
 		79A9BB1815572C4D0072749E /* VBCopilot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBCopilot.m; sourceTree = "<group>"; };
+		79F3D45015589B5F0090B398 /* 71-compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "71-compass.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +246,15 @@
 			name = Errors;
 			sourceTree = "<group>";
 		};
+		7938E23C15596BA100843F5E /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				7938E23E15596BD900843F5E /* UIAlertView+VBErrorFeedback.h */,
+				7938E23F15596BD900843F5E /* UIAlertView+VBErrorFeedback.m */,
+			);
+			name = Feedback;
+			sourceTree = "<group>";
+		};
 		7971E5E81556E88A00FEC4B6 /* Progress HUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +307,7 @@
 				79789FEB155566F600E53489 /* VBAppDelegate.h */,
 				79789FEC155566F600E53489 /* VBAppDelegate.m */,
 				79789FF1155566F600E53489 /* VBViewController.xib */,
+				79F3D45015589B5F0090B398 /* 71-compass.png */,
 				79789FE3155566F600E53489 /* Supporting Files */,
 			);
 			path = Directions;
@@ -332,6 +347,7 @@
 		7978A011155567FB00E53489 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				7938E23C15596BA100843F5E /* Feedback */,
 				791F885E1556D65E005B3393 /* Errors */,
 				791F885215559824005B3393 /* API Client */,
 				791F884C15558FC1005B3393 /* Reachability */,
@@ -436,6 +452,7 @@
 				7978A02815556B3F00E53489 /* VBListViewController.xib in Resources */,
 				791F885A1555A2D1005B3393 /* VBRouteConfigurationViewController.xib in Resources */,
 				7971E5ED1556E8A600FEC4B6 /* VBProgressHUD.bundle in Resources */,
+				79F3D45115589B5F0090B398 /* 71-compass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +510,7 @@
 				791F88611556D6A4005B3393 /* NSError+CoalesceError.m in Sources */,
 				7971E5EE1556E8A600FEC4B6 /* VBProgressHUD.m in Sources */,
 				79A9BB1915572C4D0072749E /* VBCopilot.m in Sources */,
+				7938E24015596BD900843F5E /* UIAlertView+VBErrorFeedback.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
