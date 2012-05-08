@@ -8,6 +8,7 @@
 
 #import "DirectionsTests.h"
 #import "MKPolyline+GoogleAPIEncodedString.h"
+#import "NSString+HTMLStripper.h"
 
 @implementation DirectionsTests
 
@@ -42,6 +43,12 @@
     STAssertEqualsWithAccuracy(coords[pointCount-1].longitude, -58.463057, 1E-4, nil); 
     
     free(coords);
+}
+
+- (void)testHTMLStripper {
+    NSString *s = [[NSString alloc] initWithString:@"Head <b>southeast</b> on <b>4th St</b> toward <b>Stevenson St</b>"];
+    NSString *control = [[NSString alloc] initWithString:@"Head southeast on 4th St toward Stevenson St"];
+    STAssertTrue([control isEqualToString:[s stringByStrippingHTML]], @"control and s should be equal");
 }
 
 @end

@@ -53,6 +53,8 @@
 		7978A02815556B3F00E53489 /* VBListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7978A02615556B3F00E53489 /* VBListViewController.xib */; };
 		7978A02B15556D0100E53489 /* VBSegmentsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7978A02A15556D0100E53489 /* VBSegmentsController.m */; };
 		79A9BB1915572C4D0072749E /* VBCopilot.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A9BB1815572C4D0072749E /* VBCopilot.m */; };
+		79C2CCDC15599AF200EBCD40 /* NSString+HTMLStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2CCDB15599AF200EBCD40 /* NSString+HTMLStripper.m */; };
+		79C2CCDD15599BA700EBCD40 /* NSString+HTMLStripper.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2CCDB15599AF200EBCD40 /* NSString+HTMLStripper.m */; };
 		79F3D45115589B5F0090B398 /* 71-compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 79F3D45015589B5F0090B398 /* 71-compass.png */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +140,8 @@
 		79A9BB1715572C4D0072749E /* VBCopilot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBCopilot.h; sourceTree = "<group>"; };
 		79A9BB1815572C4D0072749E /* VBCopilot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBCopilot.m; sourceTree = "<group>"; };
 		79C2CCD6155980C400EBCD40 /* sf.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = sf.gpx; sourceTree = "<group>"; };
+		79C2CCDA15599AF200EBCD40 /* NSString+HTMLStripper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTMLStripper.h"; sourceTree = "<group>"; };
+		79C2CCDB15599AF200EBCD40 /* NSString+HTMLStripper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTMLStripper.m"; sourceTree = "<group>"; };
 		79F3D45015589B5F0090B398 /* 71-compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "71-compass.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,6 +256,8 @@
 			children = (
 				7938E23E15596BD900843F5E /* UIAlertView+VBErrorFeedback.h */,
 				7938E23F15596BD900843F5E /* UIAlertView+VBErrorFeedback.m */,
+				79C2CCDA15599AF200EBCD40 /* NSString+HTMLStripper.h */,
+				79C2CCDB15599AF200EBCD40 /* NSString+HTMLStripper.m */,
 			);
 			name = Feedback;
 			sourceTree = "<group>";
@@ -513,6 +519,7 @@
 				7971E5EE1556E8A600FEC4B6 /* VBProgressHUD.m in Sources */,
 				79A9BB1915572C4D0072749E /* VBCopilot.m in Sources */,
 				7938E24015596BD900843F5E /* UIAlertView+VBErrorFeedback.m in Sources */,
+				79C2CCDC15599AF200EBCD40 /* NSString+HTMLStripper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +530,7 @@
 				7978A008155566F600E53489 /* DirectionsTests.m in Sources */,
 				7978A0151555682400E53489 /* MKPolyline+GoogleAPIEncodedString.m in Sources */,
 				7978A02115556B2500E53489 /* VBMapViewController.m in Sources */,
+				79C2CCDD15599BA700EBCD40 /* NSString+HTMLStripper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

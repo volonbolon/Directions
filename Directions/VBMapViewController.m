@@ -8,6 +8,7 @@
 
 #import "VBMapViewController.h"
 #import "VBAPIClient.h"
+#import "VBCopilot.h"
 #import "MKPolyline+GoogleAPIEncodedString.h"
 
 @interface VBMapViewController () 
@@ -36,6 +37,11 @@
     NSArray *toolBarItems = [[NSArray alloc] initWithObjects:flexibleSpace, trackingButton, nil]; 
     [[self toolbar] setItems:toolBarItems animated:YES]; 
     
+    [[VBCopilot sharedCopilot] addObserver:self
+                                forKeyPath:@"currentStep" 
+                                   options:NSKeyValueObservingOptionNew
+                                   context:nil];
+    
     [[self mapView] setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
 }
 
@@ -43,6 +49,9 @@
     [self setMapView:nil];
     [self setToolbar:nil];
     [super viewDidUnload];
+    
+    [[VBCopilot sharedCopilot] removeObserver:self
+                                   forKeyPath:@"currentStep"];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -77,6 +86,13 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    NSLog(@"%@", [[VBCopilot sharedCopilot ] currentStep]);
 }
 
 @end
