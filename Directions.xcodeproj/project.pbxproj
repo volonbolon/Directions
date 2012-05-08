@@ -137,6 +137,7 @@
 		79A9BB15155700550072749E /* VBRoutePresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBRoutePresentation.h; sourceTree = "<group>"; };
 		79A9BB1715572C4D0072749E /* VBCopilot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBCopilot.h; sourceTree = "<group>"; };
 		79A9BB1815572C4D0072749E /* VBCopilot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBCopilot.m; sourceTree = "<group>"; };
+		79C2CCD6155980C400EBCD40 /* sf.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = sf.gpx; sourceTree = "<group>"; };
 		79F3D45015589B5F0090B398 /* 71-compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "71-compass.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -268,6 +269,7 @@
 		79789FCD155566F600E53489 = {
 			isa = PBXGroup;
 			children = (
+				79C2CCD6155980C400EBCD40 /* sf.gpx */,
 				79789FE2155566F600E53489 /* Directions */,
 				7978A000155566F600E53489 /* DirectionsTests */,
 				79789FDB155566F600E53489 /* Frameworks */,
