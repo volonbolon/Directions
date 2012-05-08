@@ -10,6 +10,8 @@
 #import "VBAPIClient.h"
 #import "NSError+CoalesceError.h"
 #import "VBProgressHUD.h"
+#import "VBCopilot.h"
+#import "UIAlertView+VBErrorFeedback.h"
 #import <CoreLocation/CoreLocation.h>
 #import <AddressBook/AddressBook.h>
 
@@ -100,7 +102,6 @@
     [self setAvoidTollsSwitch:nil];
     [self setAvoidHighwaysSwitch:nil];
     [self setModePickerView:nil];
-    
     [super viewDidUnload];
 }
 
@@ -127,6 +128,40 @@
     [VBProgressHUD showWithStatus:@"Loading Route"
                  networkIndicator:YES]; 
     [self retrievePlacemarks]; 
+}
+
+- (IBAction)getCurrentLocation {
+    [VBProgressHUD showWithStatus:@"Loading Current Location" 
+                 networkIndicator:YES]; 
+    [[VBCopilot sharedCopilot] updateLocation:^(CLLocation *newLocation, NSError *error) {
+        if ( error != nil ) {
+            [UIAlertView presentAlertViewWithError:error]; 
+        } else if ( newLocation != nil ){
+            CLGeocoder *geocoder = [[CLGeocoder alloc] init]; 
+            [geocoder reverseGeocodeLocation:newLocation
+                           completionHandler:^(NSArray *placemarks, NSError *error) {
+                               if ( error != nil ) {
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [VBProgressHUD dismissWithError:[error localizedDescription] afterDelay:3.0]; 
+                                   }); 
+                               } else {
+                                   CLPlacemark *op = [placemarks objectAtIndex:0]; 
+                                   NSDictionary *addressDictionary = [op addressDictionary]; 
+                                   NSString *streetAddress = [addressDictionary objectForKey:(NSString *)kABPersonAddressStreetKey]; 
+                                   NSString *city = [addressDictionary objectForKey:(NSString *)kABPersonAddressCityKey]; 
+                                   NSString *state = [addressDictionary objectForKey:(NSString *)kABPersonAddressStateKey];
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [VBProgressHUD dismissWithSuccess:@"Found Location"]; 
+                                       [[self originStreetTextField] setText:streetAddress]; 
+                                       [[self originCityTextField] setText:city];
+                                       [[self originStateTextField] setText:state]; 
+                                       [[self destinationCityTextField] setText:city]; 
+                                       [[self destinationStateTextField] setText:state]; 
+                                   }); 
+                               }
+                           }]; 
+        }
+    }]; 
 }
 
 #pragma mark - UIPickerViewDataSource

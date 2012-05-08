@@ -22,4 +22,5 @@
 
 - (IBAction)cancelButtonTapped;
 - (IBAction)doneButtonTapped;
+- (IBAction)getCurrentLocation;
 @end

@@ -9,7 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+typedef void (^VBCopilotGetLocationCompletionBlock)(CLLocation *newLocation, NSError *error);
+
 @interface VBCopilot : NSObject <CLLocationManagerDelegate>
-+ (VBCopilot *)sharedCopilot; 
 @property (strong, readonly) NSDictionary *currentStep; 
+@property (strong, readonly) CLLocation *latestKnownLocation;
+
++ (VBCopilot *)sharedCopilot; 
+- (void)updateLocation:(VBCopilotGetLocationCompletionBlock)cb; 
 @end

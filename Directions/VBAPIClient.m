@@ -72,7 +72,6 @@ NSString *const kRouteFailNotificationName = @"routeFailNotificationName";
                                                                                             }); 
                                                                                         } 
                                                                                         failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-                                                                                            NSLog(@"%@", error);
                                                                                             [self setProcessing:NO]; 
                                                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                                                 [[NSNotificationCenter defaultCenter] postNotificationName:kRouteFailNotificationName

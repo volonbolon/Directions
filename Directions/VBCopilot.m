@@ -15,8 +15,10 @@
 @property (strong, readwrite) NSDictionary *currentStep;
 @property (assign) NSUInteger selectedIndex; 
 @property (strong) CLLocationManager *locationManager; 
-@property (strong) CLLocation *latestKnownLocation;
+@property (strong, readwrite) CLLocation *latestKnownLocation;
 @property (strong) CLLocation *endLocationForCurrentStep; 
+@property (assign) BOOL tracking; 
+@property (strong) VBCopilotGetLocationCompletionBlock completionBlock; 
 
 - (void)handleRouteNotification:(NSNotification *)notification; 
 - (void)updateStep:(NSUInteger)newIndex; 
@@ -29,6 +31,8 @@
 @synthesize steps; 
 @synthesize latestKnownLocation;
 @synthesize endLocationForCurrentStep; 
+@synthesize tracking; 
+@synthesize completionBlock; 
 
 + (VBCopilot *)sharedCopilot {
     static dispatch_once_t pred;
@@ -57,8 +61,10 @@
         [lm setDelegate:self]; 
         [lm setDesiredAccuracy:kCLLocationAccuracyBestForNavigation]; 
         [lm setDistanceFilter:10]; 
-         
+        
         [self setLocationManager:lm]; 
+        
+        [self setTracking:NO]; 
     }
     
     return self; 
@@ -99,6 +105,14 @@
     if ( abs(howRecent) < 15.0 ) {
         [self setLatestKnownLocation:newLocation];
         
+        if ( [self tracking] && [self completionBlock] != nil ) {
+            [self completionBlock](newLocation, nil); 
+            [self setTracking:NO]; 
+            [self setCompletionBlock:nil]; 
+            [[self locationManager] stopUpdatingLocation];
+            return;
+        }
+        
         if ( [newLocation distanceFromLocation:[self endLocationForCurrentStep]] < 10.0 ) {
             NSUInteger newIndex = [self selectedIndex]+1;
             if ( [[self steps] count] > newIndex ) {
@@ -112,10 +126,16 @@
                 [VBProgressHUD showSuccessWithStatus:@"We reach the end point"]; 
             }
         }
-        NSLog(@"latitude %+.6f, longitude %+.6f\n",
-              newLocation.coordinate.latitude,
-              newLocation.coordinate.longitude);
     }
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error {
+    if ( [self tracking] && [self completionBlock] != nil ) {
+        [self completionBlock](nil, error); 
+        [self setCompletionBlock:nil]; 
+        [self setTracking:NO]; 
+    } 
 }
   
 - (void)updateStep:(NSUInteger)newIndex {
@@ -125,6 +145,16 @@
     CLLocation *loc = [[CLLocation alloc] initWithLatitude:[[endLocation objectForKey:@"lat"] doubleValue]
                                                  longitude:[[endLocation objectForKey:@"lng"] doubleValue]];
     [self setEndLocationForCurrentStep:loc]; 
+}
+
+- (void)updateLocation:(VBCopilotGetLocationCompletionBlock)cb {
+    if ( [self latestKnownLocation] != nil && abs([[[self latestKnownLocation] timestamp] timeIntervalSinceNow]) < 15.0 ) {
+        cb([self latestKnownLocation], nil);  
+    } else {
+        [self setCompletionBlock:cb]; 
+        [self setTracking:YES]; 
+        [[self locationManager] startUpdatingLocation];
+    }  
 }
 
 @end
