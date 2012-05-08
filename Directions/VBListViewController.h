@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VBRoutePresentation.h"
 
-@interface VBListViewController : UIViewController
+@interface VBListViewController : UIViewController <VBRoutePresentation>
+@property (weak, nonatomic) IBOutlet UILabel *distanceToNextCheckpoint;
+@property (weak, nonatomic) IBOutlet UILabel *instructionsLabel;
 
 @end

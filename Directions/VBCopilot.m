@@ -19,6 +19,7 @@
 @property (strong) CLLocation *endLocationForCurrentStep; 
 @property (assign) BOOL tracking; 
 @property (strong) VBCopilotGetLocationCompletionBlock completionBlock; 
+@property (assign, readwrite) CLLocationDistance distanceToEndPoint;
 
 - (void)handleRouteNotification:(NSNotification *)notification; 
 - (void)updateStep:(NSUInteger)newIndex; 
@@ -33,6 +34,7 @@
 @synthesize endLocationForCurrentStep; 
 @synthesize tracking; 
 @synthesize completionBlock; 
+@synthesize distanceToEndPoint; 
 
 + (VBCopilot *)sharedCopilot {
     static dispatch_once_t pred;
@@ -113,7 +115,8 @@
             return;
         }
         
-        if ( [newLocation distanceFromLocation:[self endLocationForCurrentStep]] < 10.0 ) {
+        [self setDistanceToEndPoint:[newLocation distanceFromLocation:[self endLocationForCurrentStep]]]; 
+        if ( [self distanceToEndPoint] < 10.0 ) {
             NSUInteger newIndex = [self selectedIndex]+1;
             if ( [[self steps] count] > newIndex ) {
                 [self updateStep:newIndex]; 

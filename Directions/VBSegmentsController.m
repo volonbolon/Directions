@@ -15,6 +15,7 @@
 @property (strong, nonatomic, readwrite) NSArray *viewControllers; 
 @property (strong, nonatomic, readwrite) UINavigationController *navigationController; 
 - (void)handleRouteNotification:(NSNotification *)notification; 
+- (void)showRoute; 
 @end
 
 @implementation VBSegmentsController
@@ -52,6 +53,8 @@
     [newRouteButtonItem setAccessibilityLabel:@"New Route"]; 
     [newRouteButtonItem setAccessibilityHint:@"New Route"]; 
     [[incomingViewController navigationItem] setRightBarButtonItem:newRouteButtonItem]; 
+    
+    [self showRoute]; 
 }
 
 - (IBAction)presentNewRouteConfiguration {
@@ -66,6 +69,10 @@
 }
 
 - (void)handleRouteNotification:(NSNotification *)notification {
+    [self showRoute]; 
+}
+
+- (void)showRoute {
     if ( [[[[self navigationController] viewControllers] objectAtIndex:0] conformsToProtocol:@protocol(VBRoutePresentation)] ) {
         UIViewController <VBRoutePresentation>*vc = (UIViewController <VBRoutePresentation> *)[[[self navigationController] viewControllers] objectAtIndex:0];
         [vc showRoute];

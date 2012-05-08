@@ -14,6 +14,7 @@ typedef void (^VBCopilotGetLocationCompletionBlock)(CLLocation *newLocation, NSE
 @interface VBCopilot : NSObject <CLLocationManagerDelegate>
 @property (strong, readonly) NSDictionary *currentStep; 
 @property (strong, readonly) CLLocation *latestKnownLocation;
+@property (readonly) CLLocationDistance distanceToEndPoint; 
 
 + (VBCopilot *)sharedCopilot; 
 - (void)updateLocation:(VBCopilotGetLocationCompletionBlock)cb; 

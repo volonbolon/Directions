@@ -10,6 +10,7 @@
 #import "VBAPIClient.h"
 #import "VBCopilot.h"
 #import "VBProgressHUD.h"
+#import "NSString+HTMLStripper.h"
 #import "MKPolyline+GoogleAPIEncodedString.h"
 
 @interface VBMapViewController () 
@@ -93,7 +94,7 @@
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-    [VBProgressHUD showSuccessWithStatus:[[[VBCopilot sharedCopilot] currentStep] objectForKey:@"html_instructions"]];
+    [VBProgressHUD showSuccessWithStatus:[[[[VBCopilot sharedCopilot] currentStep] objectForKey:@"html_instructions"] stringByStrippingHTML]];
 }
 
 @end
