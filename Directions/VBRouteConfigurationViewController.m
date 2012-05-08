@@ -299,8 +299,9 @@ numberOfRowsInComponent:(NSInteger)component {
     dispatch_group_notify(group, geocode_queue, ^{
         if ( originalError != nil ) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [VBProgressHUD dismissWithError:@"Unable to found a suitable route" afterDelay:5]; 
-            }); 
+                [VBProgressHUD dismiss]; 
+                [UIAlertView presentAlertViewWithError:originalError]; 
+            });
         } else {
             [self completeRouteConfiguration];
         }
