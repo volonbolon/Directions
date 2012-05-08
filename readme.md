@@ -1,0 +1,5 @@
+Really simple turn-by-turn gps app. The lack of UI design is provervial :). 
+
+When *New Route* is tapped, the user can either add the origin of the route by hand, or press the "locate me" button (the compass) to autopopulate the fields. There are also a few other options to set (like the mode for the route and if tolls or highways whould be avoided). When too many queries are run in a short period of time, the geocoder reports an error. In the real world this would not be a problem because it takes some time to travel, and thus, the geocoder is does not work all the time (as in testing). 
+
+For testing purposes, I generate a gpx, with the origin in Stockton Street 1, San Francisco, CA, United States, and the destination at 2801 Leavenworth Street, San Francisco, CA, United States. Some of the waypoints in the gps are random, that's why the all around San Francisco. 
