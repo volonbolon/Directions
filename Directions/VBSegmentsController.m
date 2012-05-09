@@ -63,6 +63,7 @@
     UINavigationController *rootController = [[UINavigationController alloc] initWithRootViewController:rcvc]; 
      
     [rootController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal]; 
+    [rootController setModalPresentationStyle:UIModalPresentationFullScreen]; 
     [[self navigationController] presentViewController:rootController
                                               animated:YES 
                                             completion:^{}]; 
