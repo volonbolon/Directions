@@ -8,6 +8,8 @@
 
 #import "VBRouteConfigurationViewController.h"
 #import "VBAPIClient.h"
+#import "AFHTTPClient.h"
+#import "AFJSONRequestOperation.h"
 #import "NSError+CoalesceError.h"
 #import "VBProgressHUD.h"
 #import "VBCopilot.h"
@@ -15,10 +17,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AddressBook/AddressBook.h>
 
+typedef void (^VBAPIResponseCompletionBlock)(CLLocation *location, NSError *error);
+
 @interface VBRouteConfigurationViewController ()
 @property (strong) NSArray *routeModes; 
-@property (strong) CLPlacemark *originPlacemark; 
-@property (strong) CLPlacemark *destinationPlacemark;
+@property (strong) CLLocation *originLocation; 
+@property (strong) CLLocation *destinationLocation;
 
 - (BOOL)checkOrigin; 
 - (BOOL)checkDestination; 
@@ -26,6 +30,11 @@
 - (void)completeRouteConfiguration; 
 - (void)handleRouteNotification:(NSNotification *)notification; 
 - (void)cleanView;  
+- (CLLocation *)processLocationResponse:(NSDictionary *)locationInfo 
+                                  error:(NSError **)error; 
+- (void)performAPICall:(dispatch_semaphore_t)semaphore 
+            parameters:(NSDictionary *)params
+       completionBlock:(VBAPIResponseCompletionBlock)cb;
 @end
 
 @implementation VBRouteConfigurationViewController
@@ -41,12 +50,13 @@
 @synthesize modePickerView;
 
 @synthesize routeModes; 
-@synthesize originPlacemark; 
-@synthesize destinationPlacemark; 
+@synthesize originLocation; 
+@synthesize destinationLocation; 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil 
+                           bundle:nibBundleOrNil];
     if (self) {
         NSArray *rm = [[NSArray alloc] initWithObjects:@"driving", @"walking", @"bicycling", nil]; 
         [self setRouteModes:rm]; 
@@ -239,62 +249,80 @@ numberOfRowsInComponent:(NSInteger)component {
     return [[[self destinationStreetTextField] text] length] > 0 && [[[self destinationCityTextField] text] length] > 0 && [[[self destinationStateTextField] text] length] > 0;
 }
 
+- (void)performAPICall:(dispatch_semaphore_t)semaphore 
+            parameters:(NSDictionary *)params
+       completionBlock:(VBAPIResponseCompletionBlock)cb {
+    VBAPIResponseCompletionBlock completionBlock = [cb copy]; 
+    
+    NSURL *url = [[NSURL alloc] initWithString:@"http://maps.googleapis.com/"]; 
+    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:url]; 
+    NSURLRequest *originRequest = [client requestWithMethod:@"GET" 
+                                                       path:@"maps/api/geocode/json" 
+                                                 parameters:params]; 
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:originRequest
+                                                                                              success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+                                                                                                  NSError *error = nil; 
+                                                                                                  CLLocation *location = [self processLocationResponse:JSON error:&error]; 
+                                                                                                  completionBlock(location, error);
+                                                                                                  dispatch_semaphore_signal(semaphore);
+                                                                                              } 
+                                                                                              failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+                                                                                                  NSLog(@"%@", error); 
+                                                                                                  dispatch_semaphore_signal(semaphore);
+                                                                                              }]; 
+    [operation start];
+}
+
 - (void)retrievePlacemarks {
+    __block NSError *originalError = nil; 
+    
     dispatch_queue_t geocode_queue;
     geocode_queue = dispatch_queue_create("vb.directions.geocode_queue", NULL);
     dispatch_group_t group = dispatch_group_create();
     
-    __block NSError *originalError = nil; 
-    
-    NSDictionary *originDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[[self originStreetTextField] text], kABPersonAddressStreetKey, 
-                                      [[self originCityTextField] text], kABPersonAddressCityKey, 
-                                      [[self originStateTextField] text], kABPersonAddressStateKey, nil]; 
-    
-    NSDictionary *destinationDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[[self destinationStreetTextField] text], kABPersonAddressStreetKey, 
-                                           [[self destinationCityTextField] text], kABPersonAddressCityKey, 
-                                           [[self destinationStateTextField] text], kABPersonAddressStateKey, nil]; 
-    
     dispatch_group_async(group, geocode_queue, ^{
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-        CLGeocoder *geocoder = [[CLGeocoder alloc] init]; 
-    
-        [geocoder geocodeAddressDictionary:originDictionary 
-                         completionHandler:^(NSArray *placemarks, NSError *error) {
-                             if ( error != nil ) {
-                                 originalError = [NSError errorFromOriginalError:originalError
-                                                                           error:error]; 
-                             } else {
-                                 if ( [placemarks count] > 0 ) {
-                                     [self setOriginPlacemark:[placemarks objectAtIndex:0]]; 
-                                 }
-                             }
-                             dispatch_semaphore_signal(semaphore);
-                         }]; 
+        
+        NSString *addressString = [[NSString alloc] initWithFormat:@"%@, %@, %@", [[self originStreetTextField] text], [[self originCityTextField] text], [[self originStateTextField] text]]; 
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:addressString, @"address", @"true", @"sensor", nil]; 
+
+        
+        [self performAPICall:semaphore 
+                  parameters:params
+             completionBlock:^(CLLocation *location, NSError *error) {
+                 if ( error != nil ) {
+                     [NSError errorFromOriginalError:originalError 
+                                               error:error]; 
+                 } else {
+                     [self setOriginLocation:location];
+                 }
+             }]; 
+
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         dispatch_release(semaphore);
     });
     
     dispatch_group_async(group, geocode_queue, ^{
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-                
-        CLGeocoder *geocoder = [[CLGeocoder alloc] init]; 
         
-        [geocoder geocodeAddressDictionary:destinationDictionary
-                         completionHandler:^(NSArray *placemarks, NSError *error) {
-                             if ( error != nil ) {
-                                 originalError = [NSError errorFromOriginalError:originalError
-                                                                           error:error]; 
-                             } else {
-                                 if ( [placemarks count] > 0 ) {
-                                     [self setDestinationPlacemark:[placemarks objectAtIndex:0]]; 
-                                 }
-                             }
-                             dispatch_semaphore_signal(semaphore);
-                         }]; 
+        NSString *addressString = [[NSString alloc] initWithFormat:@"%@, %@, %@", [[self destinationStreetTextField] text], [[self destinationCityTextField] text], [[self destinationStateTextField] text]]; 
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:addressString, @"address", @"true", @"sensor", nil]; 
+        
+        [self performAPICall:semaphore 
+                  parameters:params
+             completionBlock:^(CLLocation *location, NSError *error) {
+                 if ( error != nil ) {
+                     [NSError errorFromOriginalError:originalError 
+                                               error:error]; 
+                 } else {
+                     [self setDestinationLocation:location]; 
+                 }
+             }]; 
         
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         dispatch_release(semaphore);
     });
+
     
     dispatch_group_notify(group, geocode_queue, ^{
         if ( originalError != nil ) {
@@ -304,8 +332,23 @@ numberOfRowsInComponent:(NSInteger)component {
             });
         } else {
             [self completeRouteConfiguration];
-        }
+        } 
     });
+}
+
+- (CLLocation *)processLocationResponse:(NSDictionary *)locationInfo 
+                          error:(NSError **)error {
+    CLLocation *location = nil; 
+    if ( [[locationInfo objectForKey:@"status"] isEqualToString:@"OK"] && [[locationInfo objectForKey:@"results"] count] > 0 ) {
+        NSDictionary *locationDictionary = [[[[locationInfo objectForKey:@"results"] objectAtIndex:0] objectForKey:@"geometry"] objectForKey:@"location"]; 
+        location = [[CLLocation alloc] initWithLatitude:[[locationDictionary objectForKey:@"lat"] doubleValue]
+                                              longitude:[[locationDictionary objectForKey:@"lng"] doubleValue]]; 
+    } else {
+        *error = [NSError errorWithDomain:@"Problem parsing Google response"
+                                     code:101
+                                 userInfo:nil];
+    }
+    return location;
 }
 
 - (void)completeRouteConfiguration {
@@ -319,11 +362,9 @@ numberOfRowsInComponent:(NSInteger)component {
                                                      name:kRouteFailNotificationName
                                                    object:nil]; 
     }); 
-    CLLocation *originLocation = [originPlacemark location]; 
-    CLLocation *destinationLocation = [destinationPlacemark location]; 
     
-    NSString *originAsString = [[NSString alloc] initWithFormat:@"%f,%f", [originLocation coordinate].latitude, [originLocation coordinate].longitude];
-    NSString *destinationAsString = [[NSString alloc] initWithFormat:@"%f,%f", [destinationLocation coordinate].latitude, [destinationLocation coordinate].longitude]; 
+    NSString *originAsString = [[NSString alloc] initWithFormat:@"%f,%f", [[self originLocation] coordinate].latitude, [[self originLocation] coordinate].longitude];
+    NSString *destinationAsString = [[NSString alloc] initWithFormat:@"%f,%f", [[self destinationLocation] coordinate].latitude, [[self destinationLocation] coordinate].longitude]; 
     
     NSMutableArray *avoidBits = [[NSMutableArray alloc] initWithCapacity:2];
     
